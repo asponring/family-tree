@@ -9,12 +9,20 @@
 
   <body>
     <h1>Stammbaum</h1>
-    <button class="new-tree">Start a new family tree!</button>
     <div class="tree-container"></div>
 
+<!--     <button class="new-tree">Start a new family tree!</button> -->
     <script src="d3/d3.min.js"></script>
-    <script src="models.js"></script>
-    <script src="app.js"></script>
+    <script src="models/person.js"></script>
+    <script src="models/relationship.js"></script>
+    <script src="models/familyTree.js"></script>
+    <script src="views/familyTreeView.js"></script>
+
+    <script>
+      var familyTree = new FamilyTree();
+
+      var familyTreeView = new FamilyTreeView(familyTree);
+    </script>
   </body>
 
 </html>
