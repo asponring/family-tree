@@ -17,7 +17,10 @@ FamilyTreeView.prototype.newPerson = function() {
   var person = new Person();
   var personView = this.svg.append("circle")
     .attr("r", this.nodeRadius)
-    .attr("fill", "#ff0000");
+    .attr("fill", "#ff0000")
+    .attr("stroke", "black")
+    .attr("stroke-width", "3")
+    .attr("class", "person");
 
   if (this.svg.size() === 1) {
     personView.attr("cx", this.width/2)
