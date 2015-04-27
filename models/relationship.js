@@ -7,6 +7,7 @@ var Relationship = function(type, detailsObj) {
   if (this.type === 'parental') {
     this.details = {
       origin: null,
+      child: null,
       subtype: null,
       startDate: null
     };
