@@ -10,6 +10,11 @@ var FamilyTreeView = function(familyTree) {
     .attr("width", this.width)
     .attr("height", this.height);
   
+  this.rows = {};
+  for (var i = -4; i <= 4; i++) {
+    this.rows[i] = [];
+  }
+
   d3.select(".new-person")
     .on("click", this.createNewPerson.bind(this));
 
@@ -27,6 +32,7 @@ FamilyTreeView.prototype.createNewPerson = function() {
 
 FamilyTreeView.prototype.savePerson = function(person) {
   this.familyTree.addPerson(person);
+  this.rows[person.height].push(person);
 
   this.renderTree();
 }
@@ -40,6 +46,11 @@ FamilyTreeView.prototype.createNewUnion = function() {
 
   detailsArea.append("h3")
     .text("Select a person who belongs to this union.");
+
+  this.svg.selectAll("g")
+    .on("click", function() {
+      console.log("success");
+    });
 };
 
 FamilyTreeView.prototype.saveRelationship = function(relationship) {
@@ -92,33 +103,48 @@ FamilyTreeView.prototype.askForDetails = function(object) {
 
 FamilyTreeView.prototype.renderTree = function() {
   var midHeight = this.height / 2;
-  var heightChunk = this.height / 8;
-  var personView = this.svg.selectAll("g")
-    .data(this.familyTree.persons)
-    .enter()
-    .append("g");
+  var heightChunk = this.height / 10;
+  var midWidth = this.width / 2;
+  var currentHeight;
 
-  personView.append("circle")
-    .attr("r", this.nodeRadius)
-    .attr("fill", "#ff0000")
-    .attr("stroke", "black")
-    .attr("stroke-width", "3")
-    .attr("class", "person")
-    .attr("cy", function(d) { 
-      return midHeight + d.height * heightChunk;
-    })
-    .attr("cx", this.width/2);
+  for (var row in this.rows) {
+    currentHeight = midHeight - heightChunk * row;
 
-  personView.append("text")
-    .attr("y", function(d) { 
-      return midHeight + d.height * heightChunk - 20;
-    })
-    .attr("x", this.width/2 + 20)
-    .attr("font-family", "sans-serif")
-    .attr("font-size", "20px")
-    .text(function(d) {
-      return d.details.firstName;
-    }); 
+    var personView = this.svg.selectAll("g")
+      .data(this.rows[row])
+      .enter()
+      .append("g");
+
+    personView.append("circle")
+      .attr("r", this.nodeRadius)
+      .attr("fill", "#ff0000")
+      .attr("stroke", "black")
+      .attr("stroke-width", "3")
+      .attr("class", "person")
+      .attr("cy", function(d) { 
+        return currentHeight;
+      })
+      .attr("cx", function(d, i) {
+        return midWidth + i * 100;
+      });
+
+    personView.append("text")
+      .attr("y", function(d) { 
+        return currentHeight - 20;
+      })
+      .attr("x", function(d, i) {
+        return midWidth + i * 100 + 20;
+      } )
+      .attr("font-family", "sans-serif")
+      .attr("font-size", "20px")
+      .text(function(d) {
+        return d.details.firstName;
+      }); 
+    
+  }
+
+
+
 
 
 };
