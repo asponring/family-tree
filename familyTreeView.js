@@ -48,27 +48,30 @@ FamilyTreeView.prototype.createNewUnion = function() {
     .text("Select a person who belongs to this union.");
 
   var svg = this.svg;
+  var askForDetails = this.askForDetails.bind(this);
   svg.selectAll("g")
     .on("click", function(d) {
-      relationship.details.person1 = d;
+      relationship.person1 = d;
       detailsArea.select("h3")
         .text("Select the counterpart in this union.")   
       svg.selectAll("g")
         .on("click", function(d) {
-          if (d !== relationship.details.person1) {
-            relationship.details.person2 = d;
+          if (d !== relationship.person1) {
+            relationship.person2 = d;
+            askForDetails(relationship);
           } else {
             detailsArea.select("h3")
               .text("Sorry, you must select a different person.")
           }
-
         });
     });
 
 };
 
 FamilyTreeView.prototype.saveRelationship = function(relationship) {
+  this.familyTree.addRelationship(relationship);
 
+  this.renderTree();
 }
 
 FamilyTreeView.prototype.askForDetails = function(object) {
@@ -138,7 +141,7 @@ FamilyTreeView.prototype.renderTree = function() {
         return currentHeight;
       })
       .attr("cx", function(d, i) {
-        return 100 * (i + 1);
+        return 50 + 200 * (i);
       });
 
     personView.append("text")
@@ -146,12 +149,12 @@ FamilyTreeView.prototype.renderTree = function() {
         return currentHeight - 20;
       })
       .attr("x", function(d, i) {
-        return 100 * (i + 1) + 20;
+        return 50+ 200 * (i) + 20;
       } )
       .attr("font-family", "sans-serif")
       .attr("font-size", "20px")
       .text(function(d) {
-        return d.details.firstName;
+        return d.details.firstName + " " + d.details.lastName;
       }); 
     
   }

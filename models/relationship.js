@@ -6,20 +6,20 @@ var Relationship = function(type, detailsObj) {
 
   if (this.type === 'parental') {
     this.details = {
-      origin: null,
-      child: null,
       subtype: null,
       startDate: null
     };
+    this.origin = null;
+    this.child = null;
   } else {
     this.details = {
-      person1: null,
-      person2: null,
       subtype: null,
       startDate: null,
       status: null,
       endDate: null
     };
+    this.person1 = null;
+    this.person2 = null;
   }
 
   if (detailsObj) {
