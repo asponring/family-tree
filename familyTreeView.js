@@ -47,10 +47,19 @@ FamilyTreeView.prototype.createNewUnion = function() {
   detailsArea.append("h3")
     .text("Select a person who belongs to this union.");
 
-  this.svg.selectAll("g")
-    .on("click", function() {
-      console.log("success");
+  var svg = this.svg;
+  svg.selectAll("g")
+    .on("click", function(d) {
+      relationship.details.person1 = d;
+      detailsArea.select("h3")
+        .text("Select the counterpart in this union.")   
+      svg.selectAll("g")
+        .on("click", function(d) {
+          relationship.details.person2 = d;
+          console.log(relationship);
+        });
     });
+
 };
 
 FamilyTreeView.prototype.saveRelationship = function(relationship) {
