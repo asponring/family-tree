@@ -55,8 +55,13 @@ FamilyTreeView.prototype.createNewUnion = function() {
         .text("Select the counterpart in this union.")   
       svg.selectAll("g")
         .on("click", function(d) {
-          relationship.details.person2 = d;
-          console.log(relationship);
+          if (d !== relationship.details.person1) {
+            relationship.details.person2 = d;
+          } else {
+            detailsArea.select("h3")
+              .text("Sorry, you must select a different person.")
+          }
+
         });
     });
 
