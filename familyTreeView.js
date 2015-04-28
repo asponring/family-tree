@@ -104,7 +104,6 @@ FamilyTreeView.prototype.askForDetails = function(object) {
 FamilyTreeView.prototype.renderTree = function() {
   var midHeight = this.height / 2;
   var heightChunk = this.height / 10;
-  var midWidth = this.width / 2;
   var currentHeight;
 
   for (var row in this.rows) {
@@ -125,7 +124,7 @@ FamilyTreeView.prototype.renderTree = function() {
         return currentHeight;
       })
       .attr("cx", function(d, i) {
-        return midWidth + i * 100;
+        return 100 * (i + 1);
       });
 
     personView.append("text")
@@ -133,7 +132,7 @@ FamilyTreeView.prototype.renderTree = function() {
         return currentHeight - 20;
       })
       .attr("x", function(d, i) {
-        return midWidth + i * 100 + 20;
+        return 100 * (i + 1) + 20;
       } )
       .attr("font-family", "sans-serif")
       .attr("font-size", "20px")
