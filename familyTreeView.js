@@ -13,12 +13,14 @@ var FamilyTreeView = function(familyTree) {
   d3.select(".new-person")
     .on("click", this.createNewPerson.bind(this));
 
+  d3.select(".new-union")
+    .on("click", this.createNewUnion.bind(this));
+
   this.createNewPerson();
 };
 
 FamilyTreeView.prototype.createNewPerson = function() {
   var person = new Person();
-
 
   this.askForDetails(person);
 };
@@ -27,13 +29,17 @@ FamilyTreeView.prototype.savePerson = function(person) {
   this.familyTree.addPerson(person);
 
   this.renderTree();
-
-
 }
 
 
-FamilyTreeView.prototype.newRelationship = function() {
+FamilyTreeView.prototype.createNewUnion = function() {
+  var relationship = new Relationship("union");
 
+  var detailsArea = d3.select(".details-form");
+  detailsArea.html("");
+
+  detailsArea.append("h3")
+    .text("Select a person who belongs to this union.");
 };
 
 FamilyTreeView.prototype.saveRelationship = function(relationship) {
@@ -42,6 +48,7 @@ FamilyTreeView.prototype.saveRelationship = function(relationship) {
 
 FamilyTreeView.prototype.askForDetails = function(object) {
   var detailsArea = d3.select(".details-form");
+  detailsArea.html("");
 
   detailsArea.append("p")
     .text("Enter details about this person:")
@@ -91,7 +98,6 @@ FamilyTreeView.prototype.renderTree = function() {
     .enter()
     .append("g");
 
-  // console.log(personView)
   personView.append("circle")
     .attr("r", this.nodeRadius)
     .attr("fill", "#ff0000")
@@ -105,23 +111,16 @@ FamilyTreeView.prototype.renderTree = function() {
 
   personView.append("text")
     .attr("y", function(d) { 
-      return midHeight + d.height * heightChunk;
+      return midHeight + d.height * heightChunk - 20;
     })
-    .attr("x", this.width/2)
+    .attr("x", this.width/2 + 20)
+    .attr("font-family", "sans-serif")
+    .attr("font-size", "20px")
     .text(function(d) {
       return d.details.firstName;
-    });
+    }); 
 
-  // if (this.svg.size() === 1) {
-  //   personView.attr("cx", this.width/2)
-  //     .attr("cy", this.height/2);
-  // }
-  // this.svg.selectAll("g")
-  //   .data(familyTree.persons, function(d, i) {
-  //     return d;
-  //   })
-  //   .enter();
-  // this.svg.selectAll("circle").enter()  
+
 };
 
 
