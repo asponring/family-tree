@@ -18,7 +18,8 @@ var FamilyTreeView = function(familyTree) {
 
 FamilyTreeView.prototype.createNewPerson = function() {
   var person = new Person();
-  var personView = this.svg.append("circle")
+  var personView = this.svg.append("g")
+    .append("circle")
     .attr("r", this.nodeRadius)
     .attr("fill", "#ff0000")
     .attr("stroke", "black")
@@ -35,7 +36,13 @@ FamilyTreeView.prototype.createNewPerson = function() {
 
 FamilyTreeView.prototype.savePerson = function(person) {
   this.familyTree.addPerson(person);
-  
+
+  this.svg.selectAll("g")
+    .data(familyTree.persons, function(d, i) {
+      return d;
+    })
+    .enter();
+  // this.svg.selectAll("circle").enter()  
 }
 
 
