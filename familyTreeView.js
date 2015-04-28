@@ -9,12 +9,16 @@ var FamilyTreeView = function(familyTree) {
     .insert("svg")
     .attr("width", this.width)
     .attr("height", this.height);
+  
+  d3.select(".new-person")
+    .on("click", this.newPerson.bind(this));
 
   this.newPerson();
 };
 
 FamilyTreeView.prototype.newPerson = function() {
   var person = new Person();
+  console.log(this.svg);
   var personView = this.svg.append("circle")
     .attr("r", this.nodeRadius)
     .attr("fill", "#ff0000")
@@ -67,7 +71,6 @@ FamilyTreeView.prototype.askForDetails = function(object) {
       });
       detailsArea.html("");
       object.addDetails(personDetails);
-      console.log(object);
     });
 
 };
