@@ -109,7 +109,7 @@ FamilyTreeView.prototype.renderTree = function() {
     })
     .attr("x", this.width/2)
     .text(function(d) {
-      return d.firstName;
+      return d.details.firstName;
     });
 
   // if (this.svg.size() === 1) {
