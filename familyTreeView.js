@@ -42,6 +42,7 @@ FamilyTreeView.prototype.askForDetails = function(object) {
     .attr("class", "details-header");
 
   var inputDivs = detailsArea.append("form")
+    .attr("name", "details")
     .selectAll("div")
     .data(Object.keys(object.details), function(d) { return d; })
     .enter()
@@ -54,9 +55,21 @@ FamilyTreeView.prototype.askForDetails = function(object) {
     .append("input")
     .attr("type", "text");
 
-  detailsArea.append("button")
+  var personDetails = {};
+
+  detailsArea.select("form").append("button")
     .attr("type", "submit")
-    .text("Save Details");
+    .text("Save Details")
+    .on("click", function(event) {
+      d3.event.preventDefault();
+      inputDivs.each(function(d, i) {
+        personDetails[d] = d3.event.toElement.form[i].value;
+      });
+      detailsArea.html("");
+      object.addDetails(personDetails);
+      console.log(object);
+    });
+
 };
 
 FamilyTreeView.prototype.renderTree = function() {

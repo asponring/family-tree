@@ -15,4 +15,6 @@ body {
 
 svg {
   border: 2px black solid;
+  display: block;
+  margin: auto;
 }
