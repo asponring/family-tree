@@ -18,18 +18,7 @@ var FamilyTreeView = function(familyTree) {
 
 FamilyTreeView.prototype.createNewPerson = function() {
   var person = new Person();
-  var personView = this.svg.append("g")
-    .append("circle")
-    .attr("r", this.nodeRadius)
-    .attr("fill", "#ff0000")
-    .attr("stroke", "black")
-    .attr("stroke-width", "3")
-    .attr("class", "person");
 
-  if (this.svg.size() === 1) {
-    personView.attr("cx", this.width/2)
-      .attr("cy", this.height/2);
-  }
 
   this.askForDetails(person);
 };
@@ -37,12 +26,9 @@ FamilyTreeView.prototype.createNewPerson = function() {
 FamilyTreeView.prototype.savePerson = function(person) {
   this.familyTree.addPerson(person);
 
-  this.svg.selectAll("g")
-    .data(familyTree.persons, function(d, i) {
-      return d;
-    })
-    .enter();
-  // this.svg.selectAll("circle").enter()  
+  this.renderTree();
+
+
 }
 
 
@@ -98,7 +84,36 @@ FamilyTreeView.prototype.askForDetails = function(object) {
 };
 
 FamilyTreeView.prototype.renderTree = function() {
+  var personView = this.svg.selectAll("g")
+    .data(this.familyTree.persons, function(d, i) { return d; })
+    .enter()
+    .append("g")
+    .attr();
 
+  // console.log(personView)
+  personView.append("circle")
+    .attr("r", this.nodeRadius)
+    .attr("fill", "#ff0000")
+    .attr("stroke", "black")
+    .attr("stroke-width", "3")
+    .attr("class", "person")
+    .attr("cy", function(d, i) { 
+      console.log(d);
+      if (d.height === 0) {
+        return 250;
+      }
+    });
+
+  // if (this.svg.size() === 1) {
+  //   personView.attr("cx", this.width/2)
+  //     .attr("cy", this.height/2);
+  // }
+  // this.svg.selectAll("g")
+  //   .data(familyTree.persons, function(d, i) {
+  //     return d;
+  //   })
+  //   .enter();
+  // this.svg.selectAll("circle").enter()  
 };
 
 

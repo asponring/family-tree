@@ -10,6 +10,8 @@ var Person = function(detailsObj) {
     deathPlace: null,
     ethnicity: null
   };
+
+  this.height = 0;
   
   if (detailsObj) {
     this.addDetails(detailsObj);
