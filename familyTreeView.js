@@ -84,11 +84,12 @@ FamilyTreeView.prototype.askForDetails = function(object) {
 };
 
 FamilyTreeView.prototype.renderTree = function() {
+  var midHeight = this.height / 2;
+  var heightChunk = this.height / 8;
   var personView = this.svg.selectAll("g")
-    .data(this.familyTree.persons, function(d, i) { return d; })
+    .data(this.familyTree.persons)
     .enter()
-    .append("g")
-    .attr();
+    .append("g");
 
   // console.log(personView)
   personView.append("circle")
@@ -98,11 +99,9 @@ FamilyTreeView.prototype.renderTree = function() {
     .attr("stroke-width", "3")
     .attr("class", "person")
     .attr("cy", function(d, i) { 
-      console.log(d);
-      if (d.height === 0) {
-        return 250;
-      }
-    });
+      return midHeight + d.height * heightChunk;
+    })
+    .attr("cx", this.width/2);
 
   // if (this.svg.size() === 1) {
   //   personView.attr("cx", this.width/2)
