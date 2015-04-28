@@ -11,14 +11,13 @@ var FamilyTreeView = function(familyTree) {
     .attr("height", this.height);
   
   d3.select(".new-person")
-    .on("click", this.newPerson.bind(this));
+    .on("click", this.createNewPerson.bind(this));
 
-  this.newPerson();
+  this.createNewPerson();
 };
 
-FamilyTreeView.prototype.newPerson = function() {
+FamilyTreeView.prototype.createNewPerson = function() {
   var person = new Person();
-  console.log(this.svg);
   var personView = this.svg.append("circle")
     .attr("r", this.nodeRadius)
     .attr("fill", "#ff0000")
@@ -34,9 +33,19 @@ FamilyTreeView.prototype.newPerson = function() {
   this.askForDetails(person);
 };
 
+FamilyTreeView.prototype.savePerson = function(person) {
+  this.familyTree.addPerson(person);
+  
+}
+
+
 FamilyTreeView.prototype.newRelationship = function() {
 
 };
+
+FamilyTreeView.prototype.saveRelationship = function(relationship) {
+
+}
 
 FamilyTreeView.prototype.askForDetails = function(object) {
   var detailsArea = d3.select(".details-form");
@@ -60,7 +69,12 @@ FamilyTreeView.prototype.askForDetails = function(object) {
     .attr("type", "text");
 
   var personDetails = {};
-
+  var savingFunction;
+  if (object instanceof Person) {
+    savingFunction = this.savePerson.bind(this);
+  } else if (object instanceof Relationship) {
+    savingFunction = this.saveRelationship.bind(this);
+  }
   detailsArea.select("form").append("button")
     .attr("type", "submit")
     .text("Save Details")
@@ -71,6 +85,7 @@ FamilyTreeView.prototype.askForDetails = function(object) {
       });
       detailsArea.html("");
       object.addDetails(personDetails);
+      savingFunction(object);
     });
 
 };
