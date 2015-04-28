@@ -98,10 +98,19 @@ FamilyTreeView.prototype.renderTree = function() {
     .attr("stroke", "black")
     .attr("stroke-width", "3")
     .attr("class", "person")
-    .attr("cy", function(d, i) { 
+    .attr("cy", function(d) { 
       return midHeight + d.height * heightChunk;
     })
     .attr("cx", this.width/2);
+
+  personView.append("text")
+    .attr("y", function(d) { 
+      return midHeight + d.height * heightChunk;
+    })
+    .attr("x", this.width/2)
+    .text(function(d) {
+      return d.firstName;
+    });
 
   // if (this.svg.size() === 1) {
   //   personView.attr("cx", this.width/2)
