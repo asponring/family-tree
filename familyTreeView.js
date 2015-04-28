@@ -159,9 +159,22 @@ FamilyTreeView.prototype.renderTree = function() {
       .attr("font-size", "20px")
       .text(function(d) {
         return d.details.firstName + " " + d.details.lastName;
-      }); 
+      });
+
     
   }
+  this.svg.selectAll("line")
+    .data(this.familyTree.relationships)
+    .enter()
+    .append("line")
+    .attr("x1", function(d) {
+      console.log(d.person1);
+    })
+    .attr("y1", 5)
+    .attr("x2", 50)
+    .attr("y2", 50)
+    .attr("stroke-width", 2)
+    .attr("stroke", "black");
 
 };
 
