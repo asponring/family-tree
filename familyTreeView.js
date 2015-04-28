@@ -145,7 +145,7 @@ FamilyTreeView.prototype.renderTree = function() {
         return currentHeight;
       })
       .attr("cx", function(d, i) {
-        return 50 + 200 * (i);
+        return 50 + 200 * i;
       });
 
     personView.append("text")
@@ -153,7 +153,7 @@ FamilyTreeView.prototype.renderTree = function() {
         return currentHeight - 20;
       })
       .attr("x", function(d, i) {
-        return 50+ 200 * (i) + 20;
+        return 50+ 200 * i + 20;
       } )
       .attr("font-family", "sans-serif")
       .attr("font-size", "20px")
@@ -162,10 +162,6 @@ FamilyTreeView.prototype.renderTree = function() {
       }); 
     
   }
-
-
-
-
 
 };
 
