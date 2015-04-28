@@ -26,15 +26,37 @@ FamilyTreeView.prototype.newPerson = function() {
     personView.attr("cx", this.width/2)
       .attr("cy", this.height/2);
   }
+
+  this.askForDetails(person);
 };
 
 FamilyTreeView.prototype.newRelationship = function() {
 
 };
 
-FamilyTreeView.prototype.askForDetails = function(detailsRequested) {
+FamilyTreeView.prototype.askForDetails = function(object) {
+  var detailsArea = d3.select(".details-form");
 
+  detailsArea.append("p")
+    .text("Enter details about this person:")
+    .attr("class", "details-header");
 
+  var inputDivs = detailsArea.append("form")
+    .selectAll("div")
+    .data(Object.keys(object.details), function(d) { return d; })
+    .enter()
+    .append("div");
+
+  inputDivs.append("label")
+    .attr("for", function(d) { return d; })
+    .text(function(d) { return d + ": "; })
+    .attr("class", "details-label")
+    .append("input")
+    .attr("type", "text");
+
+  detailsArea.append("button")
+    .attr("type", "submit")
+    .text("Save Details");
 };
 
 FamilyTreeView.prototype.renderTree = function() {
