@@ -87,14 +87,16 @@ FamilyTreeView.prototype.askForDetails = function(object) {
     .selectAll("div")
     .data(Object.keys(object.details), function(d) { return d; })
     .enter()
-    .append("div");
+    .append("div")
+    .attr("class", "form-group");
 
   inputDivs.append("label")
     .attr("for", function(d) { return d; })
     .text(function(d) { return d + ": "; })
     .attr("class", "details-label")
     .append("input")
-    .attr("type", "text");
+    .attr("type", "text")
+    .attr("class", "form-control");
 
   var personDetails = {};
   var savingFunction;
@@ -105,6 +107,7 @@ FamilyTreeView.prototype.askForDetails = function(object) {
   }
   detailsArea.select("form").append("button")
     .attr("type", "submit")
+    .attr("class", "btn btn-default")
     .text("Save Details")
     .on("click", function(event) {
       d3.event.preventDefault();
@@ -119,6 +122,7 @@ FamilyTreeView.prototype.askForDetails = function(object) {
 };
 
 FamilyTreeView.prototype.renderTree = function() {
+  this.familyTree.orderPersons();
   var midHeight = this.height / 2;
   var heightChunk = this.height / 10;
   var currentHeight;
