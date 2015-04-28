@@ -1,15 +1,18 @@
 body {
   background-image: url(background.jpg);
-  background-size: 100%;
 }
 
 .details-label {
   font-size: 20px;
-  color: white;
+  color: black;
 }
 
 .details-header {
   font-size: 25px;
-  color: white;
+  color: black;
   margin: 0px;
+}
+
+svg {
+  border: 2px black solid;
 }
