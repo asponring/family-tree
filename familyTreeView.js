@@ -160,19 +160,36 @@ FamilyTreeView.prototype.renderTree = function() {
       .text(function(d) {
         return d.details.firstName + " " + d.details.lastName;
       });
-
-    
   }
+
   this.svg.selectAll("line")
     .data(this.familyTree.relationships)
     .enter()
     .append("line")
     .attr("x1", function(d) {
-      console.log(d.person1);
+      var personToFind = d.person1;
+      return d3.selectAll("circle").filter(function(d, i) {
+          return d === personToFind;
+        }).attr("cx");
     })
-    .attr("y1", 5)
-    .attr("x2", 50)
-    .attr("y2", 50)
+    .attr("y1", function(d) {
+      var personToFind = d.person1;
+      return d3.selectAll("circle").filter(function(d, i) {
+          return d === personToFind;
+        }).attr("cy");
+    })
+    .attr("x2", function(d) {
+      var personToFind = d.person2;
+      return d3.selectAll("circle").filter(function(d, i) {
+          return d === personToFind;
+        }).attr("cx");
+    })
+    .attr("y2", function(d) {
+      var personToFind = d.person2;
+      return d3.selectAll("circle").filter(function(d, i) {
+          return d === personToFind;
+        }).attr("cy");
+    })
     .attr("stroke-width", 2)
     .attr("stroke", "black");
 
