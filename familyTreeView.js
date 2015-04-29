@@ -21,6 +21,9 @@ var FamilyTreeView = function(familyTree) {
   d3.select(".new-union")
     .on("click", this.createNewUnion.bind(this));
 
+  d3.select(".new-parental")
+    .on("click", this.createNewParental.bind(this));
+
   this.createNewPerson();
 };
 
@@ -35,7 +38,7 @@ FamilyTreeView.prototype.savePerson = function(person) {
   this.rows[person.height].push(person);
 
   this.renderTree();
-}
+};
 
 
 FamilyTreeView.prototype.createNewUnion = function() {
@@ -65,7 +68,35 @@ FamilyTreeView.prototype.createNewUnion = function() {
           }
         });
     });
+};
 
+FamilyTreeView.prototype.createNewParental = function() {
+  var relationship = new Relationship("parental");
+
+  var detailsArea = d3.select(".details-form");
+  detailsArea.html("");
+
+  detailsArea.append("h3")
+    .text("Select the child.");
+
+  var svg = this.svg;
+  var askForDetails = this.askForDetails.bind(this);
+  svg.selectAll("g")
+    .on("click", function(d) {
+      relationship.child = d;
+      detailsArea.select("h3")
+        .text("Select the origin of this child.")   
+      svg.selectAll("g")
+        .on("click", function(d) {
+          if (d !== relationship.child) {
+            relationship.origin = d;
+            askForDetails(relationship);
+          } else {
+            detailsArea.select("h3")
+              .text("Sorry, you must select a different person.")
+          }
+        });
+    });
 };
 
 FamilyTreeView.prototype.saveRelationship = function(relationship) {
@@ -167,25 +198,25 @@ FamilyTreeView.prototype.renderTree = function() {
     .enter()
     .append("line")
     .attr("x1", function(d) {
-      var personToFind = d.person1;
+      var personToFind = d.person1 || d.child;
       return d3.selectAll("circle").filter(function(d, i) {
           return d === personToFind;
         }).attr("cx");
     })
     .attr("y1", function(d) {
-      var personToFind = d.person1;
+      var personToFind = d.person1 || d.child;
       return d3.selectAll("circle").filter(function(d, i) {
           return d === personToFind;
         }).attr("cy");
     })
     .attr("x2", function(d) {
-      var personToFind = d.person2;
+      var personToFind = d.person2 || d.origin;
       return d3.selectAll("circle").filter(function(d, i) {
           return d === personToFind;
         }).attr("cx");
     })
     .attr("y2", function(d) {
-      var personToFind = d.person2;
+      var personToFind = d.person2 || d.origin;
       return d3.selectAll("circle").filter(function(d, i) {
           return d === personToFind;
         }).attr("cy");
