@@ -224,6 +224,29 @@ FamilyTreeView.prototype.renderTree = function() {
     .attr("stroke-width", 2)
     .attr("stroke", "black");
 
+  this.svg
+    .insert("text")
+    .data(this.familyTree.relationships)
+    .text(function(d) { 
+      return d.details.subtype;
+    })
+    .attr("x", function(d) {
+      var personToFind = d;
+      var result = d3.selectAll("line").filter(function(d, i) {
+          return d === personToFind;
+        }).attr("x1");
+      console.log(result);
+      return result;
+    })
+    .attr("y", function(d) {
+      var personToFind = d;
+      return d3.selectAll("line").filter(function(d, i) {
+          return d === personToFind;
+        }).attr("y1");
+    })
+    .attr("stroke-width", 2)
+    .attr("stroke", "black");
+
 };
 
 
